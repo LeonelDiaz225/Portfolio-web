@@ -40,18 +40,3 @@ document.getElementById('contact-form').addEventListener('submit', function(even
         event.preventDefault();
     }
 });
-
-// Function to load dynamic content (example)
-function loadContent(page) {
-    fetch(`src/pages/${page}.html`)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('content').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading content:', error));
-}
-
-// Example of loading the About page on page load
-document.addEventListener('DOMContentLoaded', function() {
-    loadContent('about');
-});

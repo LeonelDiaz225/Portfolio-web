@@ -40,3 +40,9 @@ document.getElementById('contact-form').addEventListener('submit', function(even
         event.preventDefault();
     }
 });
+
+// Inicializar tooltips de Bootstrap
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})

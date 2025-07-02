@@ -13,7 +13,7 @@
 </head>
 <body class="bg-dark text-light">
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-dark ">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-dark " >
         <div class="container">
             <a class="navbar-brand fw-bold" href="#">Leonel</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -25,6 +25,7 @@
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
                     <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                 </ul>
             </div>
@@ -101,30 +102,17 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="bg-gradient-dark">
+    <section id="projects" class="bg-gradient-dark" ></section>
         <div class="container">
             <br>
             <h2 class="text-center mb-5">Featured Projects</h2>
-            
- <div class="col-md-4">
-    <div class="project-card card bg-gradient-dark text-center p-4 h-100">
-        <div class="card-image-wrapper mb-3">
-            <img src="src/images/crud.png" alt="crud" class="card-img-top">
-        </div>
-        <div class="card-body">
-            <h4 class="card-title mb-3">CRUD Application</h4>
-            <p class="card-text">Aplicación web para la gestión y administración de entornos.
+            <br>
+            <div class="card" style="width: 18rem;">
+            <img src="src/images/crud.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">CRUD Application</h5>
+                <p class="card-text">Aplicación web para la gestión y administración de entornos.
             Permite crear, eliminar y acceder a diferentes ambientes de datos.</p>
-            <div class="card-buttons mt-3">
-                <a href="https://ader-demo.ct.ws/login.php" 
-                class="btn btn-primary me-2" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                data-bs-toggle="tooltip" 
-                data-bs-placement="top" 
-                title="Ver demo en vivo">
-                    <i class="bi bi-play-fill"></i> Demo
-                </a>
                 <a href="https://github.com/LeonelDiaz225/crud-usuarios" 
                 class="btn btn-secondary" 
                 target="_blank" 
@@ -144,8 +132,48 @@
         <div class="container">
             <br>
             <h2 class="text-center mb-5">Work Experience</h2>
-            <div class="timeline">
-                <!-- Experience content will be dynamically loaded from experience.html -->
+            <div class="row">
+                <!-- ADER Experience -->
+                <div class="col-12 mb-4">
+                    <div class="card bg-gradient-dark border-0">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title text-primary mb-0">Desarrollador Fullstack</h5>
+                                <span class="badge bg-primary">Abr - Jun 2025</span>
+                            </div>
+                            <h6 class="text-muted mb-3">ADER (Pasantía)</h6>
+                            <p class="card-text">Diseño de base de datos (MySQL), desarrollo backend en PHP y frontend con HTML, CSS, JS y Bootstrap. Integración de APIs, pruebas funcionales, documentación y uso de Git, Trello y Jira.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cipax Experience -->
+                <div class="col-12 mb-4">
+                    <div class="card bg-gradient-dark border-0">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title text-primary mb-0">QA Manual/Automático</h5>
+                                <span class="badge bg-primary">Nov 2024 - Ene 2025</span>
+                            </div>
+                            <h6 class="text-muted mb-3">Cipax (Pasantía)</h6>
+                            <p class="card-text">Diseño y ejecución de casos de prueba, detección de defectos, trabajo colaborativo con desarrolladores, participación en sprints y reportes de calidad con métricas clave.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rabbit Experience -->
+                <div class="col-12 mb-4">
+                    <div class="card bg-gradient-dark border-0">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title text-primary mb-0">Soporte Técnico (Nivel 3)</h5>
+                                <span class="badge bg-primary">Ene - Ago 2024</span>
+                            </div>
+                            <h6 class="text-muted mb-3">Rabbit</h6>
+                            <p class="card-text">Atención técnica sobre apps web e infraestructura. Mantenimiento de bases de datos, documentación, mejoras en código, administre y optimicé operaciones de red y servidor para mejorar el rendimiento general del sistema.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

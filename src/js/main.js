@@ -1,4 +1,4 @@
-import CONFIG from './config.js';
+import CONFIG from "./config.js";
 
 // Inicializar EmailJS
 (function () {
@@ -58,7 +58,8 @@ function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isValid = re.test(String(email).toLowerCase());
   const isReasonableLength = email.length <= 254;
-  const hasValidDomain = email.split("@")[1] && email.split("@")[1].includes(".");
+  const hasValidDomain =
+    email.split("@")[1] && email.split("@")[1].includes(".");
 
   return isValid && isReasonableLength && hasValidDomain;
 }
@@ -119,7 +120,8 @@ function showErrorMessage(customMessage) {
   errorDiv.className = "alert alert-danger mt-3";
   errorDiv.innerHTML =
     '<i class="bi bi-exclamation-triangle"></i> ' +
-    (customMessage || "Sorry, there was an error sending your message. Please try again.");
+    (customMessage ||
+      "Sorry, there was an error sending your message. Please try again.");
 
   const existingError = form.parentNode.querySelector(".alert-danger");
   if (existingError) {
@@ -140,8 +142,12 @@ const RATE_LIMIT_MS = 60000; // 1 minuto entre envíos
 function checkRateLimit() {
   const now = Date.now();
   if (now - lastSubmissionTime < RATE_LIMIT_MS) {
-    const remainingTime = Math.ceil((RATE_LIMIT_MS - (now - lastSubmissionTime)) / 1000);
-    showErrorMessage(`Please wait ${remainingTime} seconds before sending another message.`);
+    const remainingTime = Math.ceil(
+      (RATE_LIMIT_MS - (now - lastSubmissionTime)) / 1000
+    );
+    showErrorMessage(
+      `Please wait ${remainingTime} seconds before sending another message.`
+    );
     return false;
   }
   lastSubmissionTime = now;
@@ -150,76 +156,84 @@ function checkRateLimit() {
 
 // Function to send email using EmailJS
 function sendEmail(formData) {
-    const submitBtn = document.querySelector('#contact-form button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    
-    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
-    submitBtn.disabled = true;
-    
-    emailjs.send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateId, {
-        from_name: formData.name,
-        from_email: formData.email,
-        message: formData.message,
-        to_email: 'leodiaz225@outlook.com'
+  const submitBtn = document.querySelector(
+    '#contact-form button[type="submit"]'
+  );
+  const originalText = submitBtn.innerHTML;
+
+  submitBtn.innerHTML =
+    '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+  submitBtn.disabled = true;
+
+  emailjs
+    .send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateId, {
+      from_name: formData.name,
+      from_email: formData.email,
+      message: formData.message,
+      to_email: "leodiaz225@outlook.com",
     })
-    .then(function(response) {
-        console.log('SUCCESS!', response.status, response.text);
-        showSuccessMessage();
-        document.getElementById('contact-form').reset();
+    .then(function (response) {
+      console.log("SUCCESS!", response.status, response.text);
+      showSuccessMessage();
+      document.getElementById("contact-form").reset();
     })
-    .catch(function(error) {
-        console.log('FAILED...', error);
-        showErrorMessage();
+    .catch(function (error) {
+      console.log("FAILED...", error);
+      showErrorMessage();
     })
-    .finally(function() {
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
+    .finally(function () {
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
     });
 }
 
 // Main DOMContentLoaded event
-document.addEventListener('DOMContentLoaded', function() {
-    // Form submission handling
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            // Check rate limit
-            if (!checkRateLimit()) {
-                return;
-            }
-            
-            const validationResult = validateForm();
-            if (validationResult.valid) {
-                const formData = {
-                    name: validationResult.name,
-                    email: validationResult.email,
-                    message: validationResult.message
-                };
-                
-                sendEmail(formData);
-            }
-        });
-    }
+document.addEventListener("DOMContentLoaded", function () {
+  // Form submission handling
+  const contactForm = document.getElementById("contact-form");
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-    // Initialize tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
+      // Check rate limit
+      if (!checkRateLimit()) {
+        return;
+      }
+
+      const validationResult = validateForm();
+      if (validationResult.valid) {
+        const formData = {
+          name: validationResult.name,
+          email: validationResult.email,
+          message: validationResult.message,
+        };
+
+        sendEmail(formData);
+      }
     });
+  }
 
-    // Smooth scrolling for navigation links ONLY (excluding form elements)
-    document.querySelectorAll('nav a[href^="#"], .btn[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute("href"));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                });
-            }
-        });
+  // Initialize tooltips
+  var tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  );
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+
+  // Smooth scrolling for navigation links ONLY (excluding form elements)
+  document
+    .querySelectorAll('nav a[href^="#"], .btn[href^="#"]')
+    .forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute("href"));
+        if (target) {
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      });
     });
 });

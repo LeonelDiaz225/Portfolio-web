@@ -1,6 +1,8 @@
+import CONFIG from './config.js';
+
 // Inicializar EmailJS
 (function () {
-  emailjs.init("At0IrYXlGCKyPby5y");
+  emailjs.init(CONFIG.emailjs.publicKey);
 })();
 
 // Function to sanitize input
@@ -66,7 +68,6 @@ function showError(fieldId, message) {
   const field = document.getElementById(fieldId);
   field.classList.add("is-invalid");
 
-  // Create or update error message
   let errorDiv = field.parentNode.querySelector(".invalid-feedback");
   if (!errorDiv) {
     errorDiv = document.createElement("div");
@@ -81,10 +82,12 @@ function clearErrorStates() {
   const fields = ["name", "email", "message"];
   fields.forEach((fieldId) => {
     const field = document.getElementById(fieldId);
-    field.classList.remove("is-invalid");
-    const errorDiv = field.parentNode.querySelector(".invalid-feedback");
-    if (errorDiv) {
-      errorDiv.remove();
+    if (field) {
+      field.classList.remove("is-invalid");
+      const errorDiv = field.parentNode.querySelector(".invalid-feedback");
+      if (errorDiv) {
+        errorDiv.remove();
+      }
     }
   });
 }
@@ -97,7 +100,6 @@ function showSuccessMessage() {
   successDiv.innerHTML =
     '<i class="bi bi-check-circle"></i> Message sent successfully! I\'ll get back to you soon.';
 
-  // Remove existing success message if any
   const existingSuccess = form.parentNode.querySelector(".alert-success");
   if (existingSuccess) {
     existingSuccess.remove();
@@ -105,7 +107,6 @@ function showSuccessMessage() {
 
   form.parentNode.appendChild(successDiv);
 
-  // Remove success message after 5 seconds
   setTimeout(() => {
     successDiv.remove();
   }, 5000);
@@ -120,7 +121,6 @@ function showErrorMessage(customMessage) {
     '<i class="bi bi-exclamation-triangle"></i> ' +
     (customMessage || "Sorry, there was an error sending your message. Please try again.");
 
-  // Remove existing error message if any
   const existingError = form.parentNode.querySelector(".alert-danger");
   if (existingError) {
     existingError.remove();
@@ -128,7 +128,6 @@ function showErrorMessage(customMessage) {
 
   form.parentNode.appendChild(errorDiv);
 
-  // Remove error message after 5 seconds
   setTimeout(() => {
     errorDiv.remove();
   }, 5000);
@@ -151,42 +150,36 @@ function checkRateLimit() {
 
 // Function to send email using EmailJS
 function sendEmail(formData) {
-  const submitBtn = document.querySelector(
-    '#contact-form button[type="submit"]'
-  );
-  const originalText = submitBtn.innerHTML;
-
-  // Show loading state
-  submitBtn.innerHTML =
-    '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
-  submitBtn.disabled = true;
-
-  // EmailJS send function
-  emailjs
-    .send("service_9k4hlz9", "template_jzvisik", {
-      from_name: formData.name,
-      from_email: formData.email,
-      message: formData.message,
-      to_email: "leodiaz225@outlook.com", // Tu email
+    const submitBtn = document.querySelector('#contact-form button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+    submitBtn.disabled = true;
+    
+    emailjs.send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateId, {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_email: 'leodiaz225@outlook.com'
     })
-    .then(function (response) {
-      console.log("SUCCESS!", response.status, response.text);
-      showSuccessMessage();
-      document.getElementById("contact-form").reset();
+    .then(function(response) {
+        console.log('SUCCESS!', response.status, response.text);
+        showSuccessMessage();
+        document.getElementById('contact-form').reset();
     })
-    .catch(function (error) {
-      console.log("FAILED...", error);
-      showErrorMessage();
+    .catch(function(error) {
+        console.log('FAILED...', error);
+        showErrorMessage();
     })
-    .finally(function () {
-      // Restore button state
-      submitBtn.innerHTML = originalText;
-      submitBtn.disabled = false;
+    .finally(function() {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
     });
 }
 
-// Updated form submission
+// Main DOMContentLoaded event
 document.addEventListener('DOMContentLoaded', function() {
+    // Form submission handling
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(event) {
@@ -215,18 +208,18 @@ document.addEventListener('DOMContentLoaded', function() {
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
-});
 
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute("href"));
-    if (target) {
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  });
+    // Smooth scrolling for navigation links ONLY (excluding form elements)
+    document.querySelectorAll('nav a[href^="#"], .btn[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            }
+        });
+    });
 });

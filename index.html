@@ -145,59 +145,97 @@
         <br />
         <div class="row justify-content-center">
           <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card" style="width: 18rem">
+            <div
+              class="card project-card h-100"
+              style="width: 18rem; cursor: pointer"
+              data-bs-toggle="collapse"
+              data-bs-target="#project1-details"
+              aria-expanded="false"
+            >
               <img src="src/images/crud.png" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title">CRUD Application</h5>
-                <p class="card-text">
-                  Aplicación web para la gestión y administración de entornos.
-                  Permite crear, eliminar y acceder a diferentes ambientes de
-                  datos.
-                </p>
-                <a
-                  href="https://github.com/LeonelDiaz225/crud-usuarios"
-                  class="btn btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="Ver código fuente"
-                >
-                  <i class="bi bi-github"></i> Github
-                </a>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">Sistema de Gestión de Entornos y Usuarios CRUD</h5>
+                <div class="collapse" id="project1-details">
+                  <p class="card-text">
+                    Aplicación web para la gestión y administración de entornos.
+                    Permite crear, eliminar y acceder a diferentes ambientes de
+                    datos.
+                  </p>
+                  <div class="d-flex gap-2 flex-wrap">
+                    <a
+                      href="https://github.com/LeonelDiaz225/crud-usuarios"
+                      class="btn btn-secondary"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Ver código fuente"
+                      onclick="event.stopPropagation(); window.open(this.href, '_blank'); return false;"
+                    >
+                      <i class="bi bi-github"></i> Github
+                    </a>
+                    <a
+                      href="https://ader-demo.ct.ws/"
+                      class="btn btn-primary"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Ver demostración en vivo"
+                      onclick="event.stopPropagation(); window.open(this.href, '_blank'); return false;"
+                    >
+                      <i class="bi bi-play-circle"></i> Demo
+                    </a>
+                  </div>
+                </div>
+                <small class="text-muted mt-auto">
+                  <i class="bi bi-chevron-down expand-icon"></i>
+                  Click para ver detalles
+                </small>
               </div>
             </div>
           </div>
 
           <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card" style="width: 18rem">
+            <div
+              class="card project-card h-100"
+              style="width: 18rem; cursor: pointer"
+              data-bs-toggle="collapse"
+              data-bs-target="#project2-details"
+              aria-expanded="false"
+            >
               <img
-                src="src/images/project2.png"
+                src="src/images/Cervino_home2.PNG"
                 class="card-img-top"
                 alt="..."
               />
-              <div class="card-body">
+              <div class="card-body d-flex flex-column">
                 <h5 class="card-title">
-                  Evaluación Integral de Calidad y Seguridad para Aplicación de
-                  Finanzas
+                  Evaluación de Calidad y Seguridad - App Finanzas
                 </h5>
-                <p class="card-text">
-                  Realicé pruebas automatizadas de seguridad con OWASP ZAP,
-                  testing exploratorio, pruebas de usabilidad y rendimiento.
-                  Evalué la estabilidad, seguridad y experiencia del usuario en
-                  una app web de finanzas.
-                </p>
-                <a
-                  href="https://github.com/your-username/project-repo"
-                  class="btn btn-secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="Ver código fuente"
-                >
-                  <i class="bi bi-github"></i> Github
-                </a>
+                <div class="collapse" id="project2-details">
+                  <p class="card-text">
+                    Pruebas automatizadas de seguridad con OWASP ZAP, testing
+                    exploratorio y pruebas de usabilidad. Evaluación completa de
+                    estabilidad y experiencia del usuario.
+                  </p>
+                  <a
+                    href="https://github.com/LeonelDiaz225/Testing-Cipax"
+                    class="btn btn-secondary"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Ver código fuente"
+                    onclick="event.stopPropagation(); window.open(this.href, '_blank'); return false;"
+                  >
+                    <i class="bi bi-github"></i> Github
+                  </a>
+                </div>
+                <small class="text-muted mt-auto">
+                  <i class="bi bi-chevron-down expand-icon"></i>
+                  Click para ver detalles
+                </small>
               </div>
             </div>
           </div>

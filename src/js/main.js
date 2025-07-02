@@ -3,18 +3,32 @@
   emailjs.init("At0IrYXlGCKyPby5y");
 })();
 
+// Function to sanitize input
+function sanitizeInput(input) {
+  const div = document.createElement("div");
+  div.textContent = input;
+  return div.innerHTML;
+}
+
 // Function to validate the contact form
 function validateForm() {
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const message = document.getElementById("message").value.trim();
-  let valid = true;
+  let name = document.getElementById("name").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let message = document.getElementById("message").value.trim();
 
-  // Clear previous error states
+  // Sanitizar inputs
+  name = sanitizeInput(name);
+  email = sanitizeInput(email);
+  message = sanitizeInput(message);
+
+  let valid = true;
   clearErrorStates();
 
   if (name === "") {
     showError("name", "Name is required.");
+    valid = false;
+  } else if (name.length > 100) {
+    showError("name", "Name is too long (max 100 characters).");
     valid = false;
   }
 
@@ -29,15 +43,22 @@ function validateForm() {
   if (message === "") {
     showError("message", "Message is required.");
     valid = false;
+  } else if (message.length > 1000) {
+    showError("message", "Message is too long (max 1000 characters).");
+    valid = false;
   }
 
-  return valid;
+  return { valid, name, email, message };
 }
 
-// Function to validate email format
+// Improved email validation
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(String(email).toLowerCase());
+  const isValid = re.test(String(email).toLowerCase());
+  const isReasonableLength = email.length <= 254;
+  const hasValidDomain = email.split("@")[1] && email.split("@")[1].includes(".");
+
+  return isValid && isReasonableLength && hasValidDomain;
 }
 
 // Function to show error states
@@ -91,12 +112,13 @@ function showSuccessMessage() {
 }
 
 // Function to show error message
-function showErrorMessage() {
+function showErrorMessage(customMessage) {
   const form = document.getElementById("contact-form");
   const errorDiv = document.createElement("div");
   errorDiv.className = "alert alert-danger mt-3";
   errorDiv.innerHTML =
-    '<i class="bi bi-exclamation-triangle"></i> Sorry, there was an error sending your message. Please try again.';
+    '<i class="bi bi-exclamation-triangle"></i> ' +
+    (customMessage || "Sorry, there was an error sending your message. Please try again.");
 
   // Remove existing error message if any
   const existingError = form.parentNode.querySelector(".alert-danger");
@@ -110,6 +132,21 @@ function showErrorMessage() {
   setTimeout(() => {
     errorDiv.remove();
   }, 5000);
+}
+
+// Simple rate limiting
+let lastSubmissionTime = 0;
+const RATE_LIMIT_MS = 60000; // 1 minuto entre envíos
+
+function checkRateLimit() {
+  const now = Date.now();
+  if (now - lastSubmissionTime < RATE_LIMIT_MS) {
+    const remainingTime = Math.ceil((RATE_LIMIT_MS - (now - lastSubmissionTime)) / 1000);
+    showErrorMessage(`Please wait ${remainingTime} seconds before sending another message.`);
+    return false;
+  }
+  lastSubmissionTime = now;
+  return true;
 }
 
 // Function to send email using EmailJS
@@ -148,31 +185,36 @@ function sendEmail(formData) {
     });
 }
 
-// Event listener for the contact form submission
-document
-  .getElementById("contact-form")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    if (validateForm()) {
-      const formData = {
-        name: document.getElementById("name").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        message: document.getElementById("message").value.trim(),
-      };
-
-      sendEmail(formData);
+// Updated form submission
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Check rate limit
+            if (!checkRateLimit()) {
+                return;
+            }
+            
+            const validationResult = validateForm();
+            if (validationResult.valid) {
+                const formData = {
+                    name: validationResult.name,
+                    email: validationResult.email,
+                    message: validationResult.message
+                };
+                
+                sendEmail(formData);
+            }
+        });
     }
-  });
 
-// Inicializar tooltips de Bootstrap
-document.addEventListener("DOMContentLoaded", function () {
-  var tooltipTriggerList = [].slice.call(
-    document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  );
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl);
-  });
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
 });
 
 // Smooth scrolling for navigation links
